@@ -1,15 +1,25 @@
+.layout-image {
+  width: 500px;
+  height: auto;
+}
+
+.chart-layout-container {
+  display: flex;
+  justify-content: space-around; 
+  align-items: center;
+  margin: 20px 0; 
+}
+
 .chart-container {
-          width: 40%; 
-          height: 50%; 
-          margin: auto;
-         
-        }
+  width: 35%; 
+  height: auto;
+}
 
 .day-selector {
   margin: 2% 0;
+  margin-left: 65%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  
 }
 
 .day-selector label {
@@ -20,14 +30,10 @@
 .day-selector select {
   padding: 8px;
   font-size: 16px;
-  
-
   background-color: #f9f9f9;
   color: #333;
   outline: none;
-
 }
-
 
 .day-selector select:focus {
   border-color: #000000; 
@@ -47,7 +53,6 @@
   background-size: 12px;
 }
 
-
 .day-selector select {
   padding-right: 30px;
 }
@@ -56,9 +61,3 @@
   font-family: Arial, sans-serif;
   color: #000; 
 }
-
-
-
-
-
-     
