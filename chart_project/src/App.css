@@ -1,0 +1,64 @@
+.chart-container {
+          width: 40%; 
+          height: 50%; 
+          margin: auto;
+         
+        }
+
+.day-selector {
+  margin: 2% 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.day-selector label {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.day-selector select {
+  padding: 8px;
+  font-size: 16px;
+  
+
+  background-color: #f9f9f9;
+  color: #333;
+  outline: none;
+
+}
+
+
+.day-selector select:focus {
+  border-color: #000000; 
+}
+
+.day-selector select::-ms-expand {
+  display: none; 
+}
+
+.day-selector select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns%3D%22http://www.w3.org/2000/svg%22 width%3D%2216%22 height%3D%2216%22 fill%3D%22%23333%22 viewBox%3D%220 0 16 16%22%3E%3Cpath fill-rule%3D%22evenodd%22 d%3D%22M4.646 6.646a.5.5 0 0 1 .708 0L8 9.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z%22/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+}
+
+
+.day-selector select {
+  padding-right: 30px;
+}
+
+.App {
+  font-family: Arial, sans-serif;
+  color: #000; 
+}
+
+
+
+
+
+     
