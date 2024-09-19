@@ -53,7 +53,7 @@ function BarChart({ selectedDay }) {
       const [datePart, timePart] = entry.datetime.split(' ');
       const [hour, minute] = timePart.split(':');
       const roundedMinute = Math.floor(minute / 30) * 30;
-      const timeKey = `${datePart} ${hour}:${roundedMinute.toString().padStart(2, '0')}`;
+      const timeKey = ` ${hour}:${roundedMinute.toString().padStart(2, '0')}`;
 
       if (!groupedData[timeKey]) {
         groupedData[timeKey] = { total: 0, count: 0 };
