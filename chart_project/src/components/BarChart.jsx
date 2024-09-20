@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
+import { useEffect, useState, useRef } from 'react';
+import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
@@ -16,25 +15,20 @@ import { UserData } from '../Data';
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
 );
 
 function BarChart({ selectedDay }) {
-  const situacaoColors = {
-    'vermelho': 'rgba(0, 0, 0, 1)',
-    'amarelo': 'rgba(0, 0, 0, 1)',
-    'verde': 'rgba(0, 0, 0, 1)'
-  };
+  const chartRef = useRef(null);
 
   const getSituacaoValue = (situacao) => {
     switch (situacao) {
-      case 'vermelho': return 3;
-      case 'amarelo': return 2;
-      case 'verde': return 1;
+      case 'vermelho': return 50;
+      case 'amarelo': return 30;
+      case 'verde': return 10;
       default: return 0;
     }
   };
@@ -52,7 +46,7 @@ function BarChart({ selectedDay }) {
     data.forEach((entry) => {
       const [datePart, timePart] = entry.datetime.split(' ');
       const [hour, minute] = timePart.split(':');
-      const roundedMinute = Math.floor(minute / 30) * 30;
+      const roundedMinute = Math.floor(minute / 10) * 10;
       const timeKey = ` ${hour}:${roundedMinute.toString().padStart(2, '0')}`;
 
       if (!groupedData[timeKey]) {
@@ -65,11 +59,9 @@ function BarChart({ selectedDay }) {
 
     const averagedData = Object.keys(groupedData).map((timeKey) => {
       const avgValue = groupedData[timeKey].total / groupedData[timeKey].count;
-      const roundedAvgValue = Math.round(avgValue);
-      const situacao = Object.keys(situacaoColors).find(key => getSituacaoValue(key) === roundedAvgValue);
       return {
         datetime: timeKey,
-        situacao: situacao || 'verde',
+        situacao: avgValue,
       };
     });
 
@@ -79,12 +71,11 @@ function BarChart({ selectedDay }) {
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [{
-      label: "Gráfico Pessoas nas filas x Horário",
+      label: "Gráfico Pessoas nas filas", 
       data: [],
-      backgroundColor: [],
-      borderColor: 'rgba(0, 0, 0, 1)',
-      borderWidth: 1,
-      fill: false,
+      backgroundColor: [], 
+      borderColor: 'transparent',
+      borderRadius: 50, 
     }]
   });
 
@@ -93,23 +84,81 @@ function BarChart({ selectedDay }) {
       const filteredData = filterByDayOfWeek(UserData, selectedDay);
       const averagedData = calculateAverageSituacao(filteredData);
 
-      setChartData({
-        labels: averagedData.map((data) => data.datetime),
-        datasets: [{
-          label: "Gráfico Pessoas nas filas x Horário",
-          data: averagedData.map((data) => getSituacaoValue(data.situacao)),
-          backgroundColor: averagedData.map((data) => situacaoColors[data.situacao]),
-          borderColor: 'rgba(0, 0, 0, 1)',
-          borderWidth: 1,
-          fill: false,
-        }]
-      });
+      const chart = chartRef.current;
+      const ctx = chart?.ctx;
+
+      if (ctx) {
+        const gradientColors = averagedData.map(() => {
+          const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+          gradient.addColorStop(0, 'rgba(125,131,137,1)'); // Cor clara no topo
+          gradient.addColorStop(1, 'rgba(46,48,51,1)');   // Cor escura no final
+          return gradient; // Retorna o gradiente para cada barra
+        });
+
+        setChartData({
+          labels: averagedData.map((data) => data.datetime),
+          datasets: [{
+            label: "Gráfico Pessoas nas filas", 
+            data: averagedData.map((data) => data.situacao),
+            backgroundColor: gradientColors,
+            borderColor: 'transparent',
+            borderRadius: 5, 
+          }]
+        });
+      }
     }, 3000);
 
     return () => clearInterval(interval);
   }, [selectedDay]);
 
-  return <Line data={chartData} />;
+  const chartOptions = {
+    plugins: {
+      legend: {
+        display: false, 
+      },
+      title: {
+        display: true,
+        text: 'Gráfico Pessoas nas filas x Horário',
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false, 
+          drawOnChartArea: false, 
+          color: 'rgba(200, 200, 200, 0.2)', 
+          tickLength: 18,
+        },
+        ticks: {
+          maxRotation: 0, 
+          minRotation: 0, 
+          autoSkip: false, 
+          
+          
+        },
+      },
+      y: {
+        grid: {
+          display: true, 
+          drawOnChartArea: true, 
+          drawTicks: false,
+          
+        },
+        beginAtZero: true,
+      }
+    },
+    layout: {
+      backgroundColor: '#2e2e2e', 
+      
+     
+      
+
+    },
+    
+    
+  };
+
+  return <Bar ref={chartRef} data={chartData} options={chartOptions} />;
 }
 
 export default BarChart;
