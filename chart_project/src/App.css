@@ -10,53 +10,69 @@
   margin:20px 0; 
 }
 
-.chart-container {
-  width: 50%; 
-  height: auto;
+
+.bar-chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 900px;
+
   
 }
 
-.day-selector {
-  margin: 2% 0;
-  margin-left: 65%;
+.chart-container h3{
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-style: italic;
+  font-size: 16px;
+  color:rgb(0, 0, 0, 1);
+  
+
+
+}
+
+
+.day-selector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  
   
 }
 
 .day-selector label {
+  display: flex;
   font-size: 18px;
-  margin-right: 10px;
+  margin-left: 10px;
+  
 }
 
-.day-selector select {
-  padding: 8px;
-  font-size: 16px;
-  background-color: #f9f9f9;
-  color: #333;
-  outline: none;
+.day-selector div {
+  padding: 1% 30px;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  
+  
 }
 
 .day-selector select:focus {
   border-color: #000000; 
+  height: 1px;
+}
+.day-selector div:hover {
+  border-bottom: 1px solid grey;
+  
+
+}
+.day-selector div.active {
+  border-bottom: 1px solid black; 
+  
+  align-items: center;
+  
 }
 
-.day-selector select::-ms-expand {
-  display: none; 
-}
 
-.day-selector select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns%3D%22http://www.w3.org/2000/svg%22 width%3D%2216%22 height%3D%2216%22 fill%3D%22%23333%22 viewBox%3D%220 0 16 16%22%3E%3Cpath fill-rule%3D%22evenodd%22 d%3D%22M4.646 6.646a.5.5 0 0 1 .708 0L8 9.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z%22/%3E%3C/svg%3E');
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 12px;
-}
-
-.day-selector select {
-  padding-right: 30px;
-}
 
 .App {
   font-family: Arial, sans-serif;

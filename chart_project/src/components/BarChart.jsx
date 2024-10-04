@@ -11,7 +11,6 @@ import {
 } from 'chart.js';
 import { UserData } from '../Data';
 
-// Registrar os componentes do Chart.js
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -21,7 +20,7 @@ ChartJS.register(
   Legend
 );
 
-function BarChart({ selectedDay }) {
+function BarChart({ selectedDay, setSelectedDay }) {
   const chartRef = useRef(null);
 
   const filterByDayOfWeek = (data, dayOfWeek) => {
@@ -81,9 +80,9 @@ function BarChart({ selectedDay }) {
       if (ctx) {
         const gradientColors = realData.map(() => {
           const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-          gradient.addColorStop(0, 'rgba(125,131,137,1)'); // Cor clara no topo
-          gradient.addColorStop(1, 'rgba(46,48,51,1)');   // Cor escura no final
-          return gradient; // Retorna o gradiente para cada barra
+          gradient.addColorStop(0, 'rgba(125,131,137,1)');
+          gradient.addColorStop(1, 'rgba(46,48,51,1)');
+          return gradient;
         });
 
         setChartData({
@@ -108,7 +107,7 @@ function BarChart({ selectedDay }) {
         display: false,
       },
       title: {
-        display: true,
+        display: false,
         text: 'Quantidade de Pessoas nas Filas x Horário',
       },
     },
@@ -116,9 +115,6 @@ function BarChart({ selectedDay }) {
       x: {
         grid: {
           display: false,
-          drawOnChartArea: false,
-          color: 'rgba(200, 200, 200, 0.2)',
-          tickLength: 5,
         },
         ticks: {
           maxRotation: 0,
@@ -129,8 +125,6 @@ function BarChart({ selectedDay }) {
       y: {
         grid: {
           display: true,
-          drawOnChartArea: true,
-          drawTicks: false,
         },
         beginAtZero: true,
       }
@@ -140,7 +134,32 @@ function BarChart({ selectedDay }) {
     },
   };
 
-  return <Bar ref={chartRef} data={chartData} options={chartOptions} />;
+  const daysOfWeek = [
+    { value: 1, label: 'SEG' },
+    { value: 2, label: 'TER' },
+    { value: 3, label: 'QUA' },
+    { value: 4, label: 'QUI' },
+    { value: 5, label: 'SEX' },
+    { value: 6, label: 'SAB' },
+    { value: 7, label: 'DOM' },
+  ];
+
+  return (
+    <div className="bar-chart-container">
+      <div className="day-selector">
+        {daysOfWeek.map((day) => (
+          <div
+            key={day.value}
+            className={selectedDay === day.value ? 'active' : ''}
+            onClick={() => setSelectedDay(day.value)}
+          >
+            {day.label}
+          </div>
+        ))}
+      </div>
+      <Bar ref={chartRef} data={chartData} options={chartOptions} />
+    </div>
+  );
 }
 
 export default BarChart;
